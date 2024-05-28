@@ -1,0 +1,152 @@
+import React from "react";
+import Navbar from "../components/navbar";
+import { describe } from "node:test";
+import App from "@/App";
+import {
+  render,
+  screen,
+  fireEvent,
+} from "@testing-library/react";
+import { BrowserRouter as Router } from "react-router-dom";
+import { branches } from "@/lib/mockdata";
+
+global.fetch = jest.fn();
+fetch.mockImplementation(() =>
+  Promise.resolve({
+    json: () => Promise.resolve({ data: 'mocked data' }),
+  })
+);
+
+jest.mock('../components/api/branches/getBranches', () => ({
+  getBranches: jest.fn(() => Promise.resolve(branches)), // replace [] with your mocked data
+}));
+
+jest.mock('three/examples/jsm/loaders/FBXLoader', () => {
+  return jest.fn().mockImplementation(() => {
+    return {
+      load: jest.fn().mockImplementation((url, onLoad) => {
+        onLoad({}); // Simulate a successful load with an empty object
+      }),
+    };
+  });
+});
+
+jest.mock('three/examples/jsm/controls/OrbitControls', () => {
+  return jest.fn().mockImplementation(() => {
+    return {
+      load: jest.fn().mockImplementation((url, onLoad) => {
+        onLoad({}); // Simulate a successful load with an empty object
+      }),
+    };
+  });
+});
+
+
+describe("Navbar when user is not logged in", () => {
+  test("Should render the logo, and login/register", () => {
+    render(
+      <Router>
+        <Navbar />
+      </Router>
+    );
+    const logo = screen.getByTestId("logo");
+    expect(logo).toBeInTheDocument();
+    const loginRegisterBtn = screen.getByText("Login/Register");
+    expect(loginRegisterBtn).toBeInTheDocument();
+  });
+
+  test("Shouldn't render avatar button", () => {
+    render(
+      <Router>
+        <Navbar />
+      </Router>
+    );
+    expect(screen.queryByTestId("userAvatar")).toBeNull();
+  });
+
+  test("Should redirects to Landing Page when clicking on logo", () => {
+    render(
+      <Router>
+        <App />
+      </Router>
+    );
+    const logo = screen.getByTestId("logo");
+    fireEvent.click(logo);
+    expect(screen.getByTestId("landingPage")).toBeInTheDocument();
+  });
+
+  test("Should show/hide Login/Register Sheet when user clicks 'Login/Register'", () => {
+    render(
+      <Router>
+        <Navbar />
+      </Router>
+    );
+    const loginRegisterBtn = screen.getByText("Login/Register");
+    fireEvent.click(loginRegisterBtn);
+    expect(screen.queryByTestId("sheetContent")).toBeInTheDocument();
+    fireEvent.click(loginRegisterBtn);
+    expect(screen.queryByTestId("sheetContent")).toBeNull();
+  });
+});
+
+describe("Navbar when user is logged in", () => {
+  test("Should redirects to Landing Page when clicking on logo", () => {
+    render(
+      <Router>
+        <App />
+      </Router>
+    );
+    const logo = screen.getByTestId("logo");
+    fireEvent.click(logo);
+    expect(screen.getByTestId("landingPage")).toBeInTheDocument();
+  });
+
+  const loginTest = async () => {
+    render(
+      <Router>
+        <Navbar />
+      </Router>
+    );
+    fireEvent.click(screen.getByText("Login/Register"));
+
+    screen.queryByTestId("email").innerText = "test@jest.com";
+    screen.queryByTestId("password").innerText = "jestword";
+
+    fireEvent.click(screen.queryByTestId("loginSubmitBtn"));
+
+    await page.waitForFunction('window.location.reload")');
+    expect(screen.queryByTestId("userAvatar")).toBeInTheDocument();
+    expect(screen.getByTestId("logo")).toBeInTheDocument();
+    expect(screen.queryAllByText("Login/Register")).toBeNull();
+  };
+
+  test("should render user avatar and not render 'Login/Register' after loging in", () => {
+    loginTest();
+  });
+
+  const avatarTest = async () => {
+    render(
+      <Router>
+        <Navbar />
+      </Router>
+    );
+    fireEvent.click(screen.getByText("Login/Register"));
+
+    screen.queryByTestId("email").innerText = "test@jest.com";
+    screen.queryByTestId("password").innerText = "jestword";
+
+    fireEvent.click(screen.queryByTestId("loginSubmitBtn"));
+
+    await page.waitForFunction('window.location.reload")');
+    const avatar = screen.queryByTestId("userAvatar");
+    expect(avatar).toBeInTheDocument();
+    fireEvent.click(avatar);
+    expect(screen.getByTestId("userOptions")).toBeInTheDocument();
+    fireEvent.click(avatar);
+    expect(screen.queryByTestId("userOptions")).toBeNull();
+  };
+
+  test("should show/hide dropdown options when clicking on user avatar", () => {
+    avatarTest();
+  });
+});

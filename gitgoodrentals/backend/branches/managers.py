@@ -1,0 +1,2 @@
+class BranchManager():
+    pass

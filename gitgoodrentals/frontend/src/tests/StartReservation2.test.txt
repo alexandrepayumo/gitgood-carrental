@@ -1,0 +1,92 @@
+import React from 'react';
+import { render, screen, fireEvent, within, waitFor } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import { BrowseVehicles } from '../components/Pages/BrowseVehicles';
+import RentCar from '../components/Pages/RentCar';
+import { mockVehicles } from '../lib/mockdata'; // Import mock data
+
+describe('Browse Vehicles', () => {
+  test('renders available vehicles', () => {
+    render(
+      <MemoryRouter>
+        <BrowseVehicles data={mockVehicles}/>
+      </MemoryRouter>
+    );
+    const vehicleCards = screen.getAllByTestId('vehicle-card');
+    expect(vehicleCards.length).toBeGreaterThan(0);
+  });
+
+  test('allows pressing on a vehicle card to view details', () => {
+    render(
+      <MemoryRouter>
+        <BrowseVehicles data={mockVehicles}/>
+      </MemoryRouter>
+    );
+    const firstVehicleCard = screen.getAllByTestId('vehicle-card')[0];
+    const viewDetailsLink = within(firstVehicleCard).getByText('View Details');
+    fireEvent.click(viewDetailsLink);
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+  });
+
+  test('includes a filter sidebar', () => {
+    render(
+      <MemoryRouter>
+        <BrowseVehicles data={mockVehicles}/>
+      </MemoryRouter>
+    );
+    const filterSidebar = screen.getByTestId('filter-sidebar');
+    expect(filterSidebar).toBeInTheDocument();
+  });
+
+  test('allows sorting vehicles by price', () => {
+    render(
+      <MemoryRouter>
+        <BrowseVehicles data={mockVehicles}/>
+      </MemoryRouter>
+    );
+    const sortDropdown = screen.getByRole('button', { name: /sort by:/i });
+    fireEvent.click(sortDropdown);
+    const sortByPriceOption = screen.getByText('Price (lowest first)');
+    fireEvent.click(sortByPriceOption);
+    const vehicleCards = screen.getAllByTestId('vehicle-card');
+    const prices = vehicleCards.map((card) =>
+      parseFloat(within(card).getByText(/\$/i).textContent.replace('$', ''))
+    );
+    expect(prices).toEqual(prices.sort((a, b) => a - b));
+  });
+
+  window.ResizeObserver = jest.fn().mockImplementation(() => ({
+    observe: jest.fn(),
+    unobserve: jest.fn(),
+    disconnect: jest.fn(),
+  }));
+
+  test('submits the form with return date before pickup date', async () => {
+    const { getByLabelText, getByText } = render(
+      <MemoryRouter>
+        <RentCar />
+      </MemoryRouter>
+    );
+  
+    // Mocking the calendar selection
+    const pickupDateInput = getByLabelText('Pickup Date');
+    fireEvent.focus(pickupDateInput); // Focus the input to open the calendar
+    fireEvent.change(pickupDateInput, { target: { value: '2024-04-05' } }); // Set pickup date
+  
+    const dropoffDateInput = getByLabelText('Dropoff Date');
+    fireEvent.focus(dropoffDateInput); // Focus the input to open the calendar
+    fireEvent.change(dropoffDateInput, { target: { value: '2024-04-01' } }); // Set dropoff date
+  
+    // Find and click the submit button
+    const submitButton = getByText('Submit');
+    fireEvent.click(submitButton);
+  
+    // Wait for the form submission
+    await waitFor(() => {
+      // Expect 2 to be printed to the console
+      console.log(2);
+    });
+  
+    // Assert any further expectations here
+  });
+});

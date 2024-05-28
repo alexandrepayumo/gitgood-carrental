@@ -1,0 +1,238 @@
+/* #root {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  
+  .logo {
+    height: 6em;
+    padding: 1.5em;
+    will-change: filter;
+    transition: filter 300ms;
+  }
+  .logo:hover {
+    filter: drop-shadow(0 0 2em #646cffaa);
+  }
+  .logo.react:hover {
+    filter: drop-shadow(0 0 2em #61dafbaa);
+  }
+  
+  @keyframes logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    a:nth-of-type(2) .logo {
+      animation: logo-spin infinite 20s linear;
+    }
+  }
+  
+  .card {
+    width: 80%;
+    height: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .read-the-docs {
+    color: #888;
+  }
+    
+  .userflname{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 28px;
+    text-align: left;
+    padding-left: 7%;
+    padding-top: 1%;
+    padding-bottom: 1em;
+  }
+  
+  .sideBar{
+    width: 20%;
+    text-align: center;
+    display: inline-block;
+  }
+  .option{
+    width: 100%;
+    border-width: 0em 0em 0.1em 0.1em;
+    padding: 0.5em 0em; 
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;
+    font-size: 22px;
+    background-color: #DAC0CA;
+  }
+  .option:hover{
+    background-color: #b49fa7;
+  }
+  
+  .isSelected{
+    background-color: #b49fa7;
+  }
+  
+  .listDisplay{
+    width: 80%;
+    height: 100%;
+    background-color: #DAC0CA;
+    float: right;
+    margin-right: auto;
+  }
+  .scrollArea{
+    height: 100%;
+  }
+  
+  .table{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+  
+    
+  .row.head{
+    border-style: solid;
+    border-color: #888;
+    border-bottom-width: 0.15em;
+  }
+  
+  .row.body{
+    border-style: dotted;
+    border-color: #888;
+    border-bottom-width: 0.1em;
+  }
+  
+  .row.body td, .row.head th {
+    padding: 0.15em;
+    padding-left: 0.7em;
+    text-align: left;
+    font-size: 20px;
+    background-color: #b49fa7;
+  }
+  
+  .h1{
+    font-size: 28px;
+    padding-bottom: 0.5em;
+  }
+  
+  .headingLabel{
+    text-align: left;
+    font-size: 30px;
+    font-weight: 700;
+  }
+  
+  .h2{
+    font-size: 24px;
+    margin: 0.3em 2em;
+  }
+  
+  .h3{
+    font-size: 16px;
+    font-style: italic;
+    color: #888;
+    padding-left: 4.75em;
+  }
+  
+  .leftpadding{
+    padding-left: 1em;
+  }
+  
+  .headingwrapper{
+    border-width: 0.2em;
+    width: 100%;
+  }
+  
+  .edit{
+    border-color: #7B0323;
+    border-width: 0.2em;
+    font-size: 26px;
+    padding-left: 0.2em;
+    padding-right: 0.2em;
+    margin-right: 5%;
+    float: right;
+  }
+  
+  .edit:hover{
+    background-color: #FA8072;
+  }
+  
+  text{
+    resize: horizontal;
+    border-radius: 0.2em;
+    border-width: 0.1em;
+    width:200px;
+  }
+  
+  .check{
+    margin-left: 1em;
+  }
+  .check input{
+    margin-left: 0.2em;
+  }
+  
+  .headingValues{
+    font-size: 24px;
+    font-weight: 500;
+  }
+  
+  textarea{
+    
+    border-radius: 0.2em;
+    border-width: 0.1em;
+    
+  }
+  
+  .margin4em{
+    margin-left: 4em ;
+  }
+  
+  .button.backToReservations{
+    border-width: 0.1em;
+    border-color: #FA8072;
+    font-size: 14px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin-left: 10%;
+  }
+  .edit{
+    border-color: #7B0323;
+    border-width: 0.2em;
+    font-size: 26px;
+    padding-left: 0.2em;
+    padding-right: 0.2em;
+    margin-right: 5%;
+    float: right;
+  }
+  
+  .editable{
+    background-color: #c5c5c5;
+    border-color: #888;
+  }
+  
+  .edit:hover{
+    background-color: #FA8072;
+  }
+
+  .view{
+    color : #b14444;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding: 0.5em;
+    padding-left: 1.75em;
+  }
+  
+  .view:hover{
+    color: #7a1206;
+  }
+
+  .scrollArea::-webkit-scrollbar {
+    width: 0.75em;
+  }
+   
+  .scrollArea::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 4px slategrey;
+  }
+   
+  .scrollArea::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 0.5px solid slategrey;
+  } */
